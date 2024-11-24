@@ -93,7 +93,7 @@ ORDER BY 2 DESC;
 
 
 
--- then we look at 
+
 
 -- Earlier we looked at Companies with the most Layoffs. Now let's look at that per year. It's a little more difficult.
 -- I want to look at 
