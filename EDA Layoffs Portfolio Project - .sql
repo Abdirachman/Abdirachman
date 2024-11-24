@@ -1,15 +1,10 @@
--- EDA
+-- Expolatory data analysis
 
 -- Here we are jsut going to explore the data and find trends or patterns or anything interesting like outliers
 
--- normally when you start the EDA process you have some idea of what you're looking for
-
--- with this info we are just going to look around and see what we find!
 
 SELECT * 
-FROM world_layoffs.layoffs_staging2;
-
--- EASIER QUERIES
+FROM world_layoffs.layoffs_staging2
 
 SELECT MAX(total_laid_off)
 FROM world_layoffs.layoffs_staging2;
@@ -44,15 +39,9 @@ ORDER BY funds_raised_millions DESC;
 
 
 
+-- then we look at
 
 
-
-
-
-
-
-
--- SOMEWHAT TOUGHER AND MOSTLY USING GROUP BY--------------------------------------------------------------------------------------------------
 
 -- Companies with the biggest single Layoff
 
@@ -104,10 +93,7 @@ ORDER BY 2 DESC;
 
 
 
-
-
-
--- TOUGHER QUERIES------------------------------------------------------------------------------------------------------------------------------------
+-- then we look at 
 
 -- Earlier we looked at Companies with the most Layoffs. Now let's look at that per year. It's a little more difficult.
 -- I want to look at 
