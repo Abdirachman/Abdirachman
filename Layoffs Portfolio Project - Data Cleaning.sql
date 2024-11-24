@@ -12,7 +12,7 @@ FROM world_layoffs.layoffs;
 
 
 
--- first thing we want to do is create a staging table. This is the one we will work in and clean the data. We want a table with the raw data in case something happens
+-- first thing I do is create a staging table. This is the one I will work in and clean the data. I want a table with the raw data in case something happens
 CREATE TABLE world_layoffs.layoffs_staging 
 LIKE world_layoffs.layoffs;
 
@@ -20,7 +20,7 @@ INSERT layoffs_staging
 SELECT * FROM world_layoffs.layoffs;
 
 
--- now when we are data cleaning we usually follow a few steps
+-- now when I'm data cleaning I usually follow a few steps
 -- 1. check for duplicates and remove any
 -- 2. standardize data and fix errors
 -- 3. Look at null values and see what 
@@ -78,9 +78,9 @@ FROM (
 WHERE 
 	row_num > 1;
 
--- these are the ones we want to delete where the row number is > 1 or 2or greater essentially
+-- these are the ones I want to delete where the row number is > 1 or 2or greater essentially
 
--- now you may want to write it like this:
+-- I use a cte
 WITH DELETE_CTE AS 
 (
 SELECT *
@@ -160,7 +160,7 @@ SELECT `company`,
 	FROM 
 		world_layoffs.layoffs_staging;
 
--- now that we have this we can delete rows were row_num is greater than 2
+-- now that I have this I can delete rows were row_num is greater than 2
 
 DELETE FROM world_layoffs.layoffs_staging2
 WHERE row_num >= 2;
@@ -197,16 +197,16 @@ FROM world_layoffs.layoffs_staging2
 WHERE company LIKE 'airbnb%';
 
 -- it looks like airbnb is a travel, but this one just isn't populated.
--- I'm sure it's the same for the others. What we can do is
+-- I'm sure it's the same for the others. What I can do is
 -- write a query that if there is another row with the same company name, it will update it to the non-null industry values
 -- makes it easy so if there were thousands we wouldn't have to manually check them all
 
--- we should set the blanks to nulls since those are typically easier to work with
+-- I set the blanks to nulls since those are typically easier to work with
 UPDATE world_layoffs.layoffs_staging2
 SET industry = NULL
 WHERE industry = '';
 
--- now if we check those are all null
+-- now I check if those are all null
 
 SELECT *
 FROM world_layoffs.layoffs_staging2
@@ -214,7 +214,7 @@ WHERE industry IS NULL
 OR industry = ''
 ORDER BY industry;
 
--- now we need to populate those nulls if possible
+-- now I need to populate those nulls if possible
 
 UPDATE layoffs_staging2 t1
 JOIN layoffs_staging2 t2
@@ -223,7 +223,7 @@ SET t1.industry = t2.industry
 WHERE t1.industry IS NULL
 AND t2.industry IS NOT NULL;
 
--- and if we check it looks like Bally's was the only one without a populated row to populate this null values
+-- and when I check it looks like Bally's was the only one without a populated row to populate this null values
 SELECT *
 FROM world_layoffs.layoffs_staging2
 WHERE industry IS NULL 
@@ -232,7 +232,7 @@ ORDER BY industry;
 
 -- ---------------------------------------------------
 
--- I also noticed the Crypto has multiple different variations. We need to standardize that - let's say all to Crypto
+-- I also noticed the Crypto has multiple different variations. I need to standardize that - let's say all to Crypto
 SELECT DISTINCT industry
 FROM world_layoffs.layoffs_staging2
 ORDER BY industry;
@@ -247,7 +247,7 @@ FROM world_layoffs.layoffs_staging2
 ORDER BY industry;
 
 -- --------------------------------------------------
--- we also need to look at 
+-- I also need to look at 
 
 SELECT *
 FROM world_layoffs.layoffs_staging2;
@@ -260,7 +260,7 @@ ORDER BY country;
 UPDATE layoffs_staging2
 SET country = TRIM(TRAILING '.' FROM country);
 
--- now if we run this again it is fixed
+-- now if I run this again it is fixed
 SELECT DISTINCT country
 FROM world_layoffs.layoffs_staging2
 ORDER BY country;
