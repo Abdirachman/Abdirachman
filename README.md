@@ -14,23 +14,25 @@ FROM world_layoffs.layoffs_staging2;
 
 
 
--- Looking at Percentage to see how big these layoffs were
-SELECT MAX(percentage_laid_off),  MIN(percentage_laid_off)
+-- **Looking at Percentage to see how big these layoffs were**
+```sql SELECT MAX(percentage_laid_off),  MIN(percentage_laid_off)
 FROM world_layoffs.layoffs_staging2
 WHERE  percentage_laid_off IS NOT NULL;
-
--- Which companies had 1 which is basically 100 percent of they company laid off
-SELECT *
+```
+-- **Which companies had 1 which is basically 100 percent of they company laid off**
+```sql SELECT *
 FROM world_layoffs.layoffs_staging2
 WHERE  percentage_laid_off = 1;
--- these are mostly startups it looks like who all went out of business during this time
+```
+-- **these are mostly startups it looks like who all went out of business during this time**
 
--- if we order by funcs_raised_millions we can see how big some of these companies were
-SELECT *
+-- **if we order by funcs_raised_millions we can see how big some of these companies were**
+```sql SELECT *
 FROM world_layoffs.layoffs_staging2
 WHERE  percentage_laid_off = 1
 ORDER BY funds_raised_millions DESC;
--- BritishVolt looks like an EV company, Quibi! I recognize that company - wow raised like 2 billion dollars and went under - ouch
+```
+-- **BritishVolt looks like an EV company, Quibi! I recognize that company - wow raised like 2 billion dollars and went under - ouch**
 
 
 
@@ -39,36 +41,39 @@ ORDER BY funds_raised_millions DESC;
 
 
 
--- then we look at
+-- **then we look at**
 
 
 
--- Companies with the biggest single Layoff
-
+-- **Companies with the biggest single Layoff**
+```sql
 SELECT company, total_laid_off
 FROM world_layoffs.layoffs_staging
 ORDER BY 2 DESC
 LIMIT 5;
--- now that's just on a single day
+```
+-- **now that's just on a single day**
 
--- Companies with the most Total Layoffs
+-- **Companies with the most Total Layoffs**
+```sql
 SELECT company, SUM(total_laid_off)
 FROM world_layoffs.layoffs_staging2
 GROUP BY company
 ORDER BY 2 DESC
 LIMIT 10;
+```
 
 
-
--- by location
+-- **by location**
+```sql
 SELECT location, SUM(total_laid_off)
 FROM world_layoffs.layoffs_staging2
 GROUP BY location
 ORDER BY 2 DESC
 LIMIT 10;
-
--- this it total in the past 3 years or in the dataset
-
+```
+-- **this it total in the past 3 years or in the dataset**
+```sql
 SELECT country, SUM(total_laid_off)
 FROM world_layoffs.layoffs_staging2
 GROUP BY country
@@ -90,14 +95,14 @@ SELECT stage, SUM(total_laid_off)
 FROM world_layoffs.layoffs_staging2
 GROUP BY stage
 ORDER BY 2 DESC;
+```
 
 
 
 
-
--- Earlier we looked at Companies with the most Layoffs. Now let's look at that per year. It's a little more difficult.
--- I want to look at 
-
+### -- Earlier we looked at Companies with the most Layoffs. Now let's look at that per year. It's a little more difficult.
+-- **I want to look at**
+```sql
 WITH Company_Year AS 
 (
   SELECT company, YEAR(date) AS years, SUM(total_laid_off) AS total_laid_off
@@ -113,17 +118,19 @@ FROM Company_Year_Rank
 WHERE ranking <= 3
 AND years IS NOT NULL
 ORDER BY years ASC, total_laid_off DESC;
+```
 
 
 
-
--- Rolling Total of Layoffs Per Month
+-- **Rolling Total of Layoffs Per Month**
+```sql
 SELECT SUBSTRING(date,1,7) as dates, SUM(total_laid_off) AS total_laid_off
 FROM layoffs_staging2
 GROUP BY dates
 ORDER BY dates ASC;
-
--- now use it in a CTE so we can query off of it
+```
+-- **now use it in a CTE so we can query off of it**
+```sql
 WITH DATE_CTE AS 
 (
 SELECT SUBSTRING(date,1,7) as dates, SUM(total_laid_off) AS total_laid_off
@@ -134,3 +141,6 @@ ORDER BY dates ASC
 SELECT dates, SUM(total_laid_off) OVER (ORDER BY dates ASC) as rolling_total_layoffs
 FROM DATE_CTE
 ORDER BY dates ASC;
+```
+
+-- **And that's the end of my project**
