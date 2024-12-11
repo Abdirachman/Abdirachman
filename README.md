@@ -1,14 +1,14 @@
--- Expolatory data analysis
+### -- Expolatory data analysis
 
--- Here we are jsut going to explore the data and find trends or patterns or anything interesting like outliers
+-- **Here we are jsut going to explore the data and find trends or patterns or anything interesting like outliers**
 
-``sql
+```sql
 SELECT * 
 FROM world_layoffs.layoffs_staging2
 
 SELECT MAX(total_laid_off)
 FROM world_layoffs.layoffs_staging2;
-
+```
 
 
 
