@@ -111,14 +111,14 @@ ORDER BY years ASC, total_laid_off DESC;
 
 
 
--- **Rolling Total of Layoffs Per Month**
+-- **8.Rolling Total of Layoffs Per Month**
 ```sql
 SELECT SUBSTRING(date,1,7) as dates, SUM(total_laid_off) AS total_laid_off
 FROM layoffs_staging2
 GROUP BY dates
 ORDER BY dates ASC;
 ```
--- **now we use it in a CTE so we can query off of it**
+-- **9.now we use it in a CTE so we can query off of it**
 ```sql
 WITH DATE_CTE AS 
 (
