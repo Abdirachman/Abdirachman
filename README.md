@@ -1,6 +1,6 @@
 ### -- Expolatory data analysis
 
--- **Here we are just going to explore the data and find trends or patterns or anything interesting like outliers**
+ **1.Here we are just going to explore the data and find trends or patterns or anything interesting like outliers**
 
 ```sql
 SELECT * 
@@ -10,19 +10,19 @@ SELECT MAX(total_laid_off)
 FROM world_layoffs.layoffs_staging2;
 ```
 
--- **Looking at Percentage to see how big these layoffs were**
+ **2.Looking at Percentage to see how big these layoffs were**
 ```sql SELECT MAX(percentage_laid_off),  MIN(percentage_laid_off)
 FROM world_layoffs.layoffs_staging2
 WHERE  percentage_laid_off IS NOT NULL;
 ```
--- **Which companies had 1 which is basically 100 percent of they company laid off**
+**3.Which companies had 1 which is basically 100 percent of they company laid off**
 ```sql SELECT *
 FROM world_layoffs.layoffs_staging2
 WHERE  percentage_laid_off = 1;
 ```
 -- **these are mostly startups it looks like who all went out of business during this time**
 
--- **if we order by funds_raised_millions we can see how big some of these companies were**
+**4.if we order by funds_raised_millions we can see how big some of these companies were**
 ```sql SELECT *
 FROM world_layoffs.layoffs_staging2
 WHERE  percentage_laid_off = 1
@@ -34,7 +34,7 @@ ORDER BY funds_raised_millions DESC;
 
 
 
--- **Companies with the biggest single Layoff**
+ **5.Companies with the biggest single Layoff**
 ```sql
 SELECT company, total_laid_off
 FROM world_layoffs.layoffs_staging
@@ -42,7 +42,7 @@ ORDER BY 2 DESC
 LIMIT 5;
 ```
 
--- **Companies with the most Total Layoffs**
+**6a.Companies with the most Total Layoffs**
 ```sql
 SELECT company, SUM(total_laid_off)
 FROM world_layoffs.layoffs_staging2
@@ -52,7 +52,7 @@ LIMIT 10;
 ```
 
 
--- **by location**
+**6b.by location**
 ```sql
 SELECT location, SUM(total_laid_off)
 FROM world_layoffs.layoffs_staging2
@@ -60,7 +60,7 @@ GROUP BY location
 ORDER BY 2 DESC
 LIMIT 10;
 ```
--- **this it total in the past 3 years or in the dataset**
+ **6c.this it total in the past 3 years or in the dataset**
 ```sql
 SELECT country, SUM(total_laid_off)
 FROM world_layoffs.layoffs_staging2
@@ -88,7 +88,8 @@ ORDER BY 2 DESC;
 
 
 
-### -- Earlier we looked at Companies with the most Layoffs. Now let's look at that per year.
+### -- Earlier we looked at Companies with the most Layoffs. 
+**7.Now let's look at that per year**.
 
 ```sql
 WITH Company_Year AS 
