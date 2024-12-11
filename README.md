@@ -10,10 +10,6 @@ SELECT MAX(total_laid_off)
 FROM world_layoffs.layoffs_staging2;
 ```
 
-
-
-
-
 -- **Looking at Percentage to see how big these layoffs were**
 ```sql SELECT MAX(percentage_laid_off),  MIN(percentage_laid_off)
 FROM world_layoffs.layoffs_staging2
@@ -26,19 +22,12 @@ WHERE  percentage_laid_off = 1;
 ```
 -- **these are mostly startups it looks like who all went out of business during this time**
 
--- **if we order by funcs_raised_millions we can see how big some of these companies were**
+-- **if we order by funds_raised_millions we can see how big some of these companies were**
 ```sql SELECT *
 FROM world_layoffs.layoffs_staging2
 WHERE  percentage_laid_off = 1
 ORDER BY funds_raised_millions DESC;
 ```
--- **BritishVolt looks like an EV company, Quibi! I recognize that company - wow raised like 2 billion dollars and went under - ouch**
-
-
-
-
-
-
 
 
 -- **then we look at**
@@ -52,7 +41,6 @@ FROM world_layoffs.layoffs_staging
 ORDER BY 2 DESC
 LIMIT 5;
 ```
--- **now that's just on a single day**
 
 -- **Companies with the most Total Layoffs**
 ```sql
@@ -100,8 +88,8 @@ ORDER BY 2 DESC;
 
 
 
-### -- Earlier we looked at Companies with the most Layoffs. Now let's look at that per year. It's a little more difficult.
--- **I want to look at**
+### -- Earlier we looked at Companies with the most Layoffs. Now let's look at that per year.
+
 ```sql
 WITH Company_Year AS 
 (
@@ -129,7 +117,7 @@ FROM layoffs_staging2
 GROUP BY dates
 ORDER BY dates ASC;
 ```
--- **now use it in a CTE so we can query off of it**
+-- **now we use it in a CTE so we can query off of it**
 ```sql
 WITH DATE_CTE AS 
 (
